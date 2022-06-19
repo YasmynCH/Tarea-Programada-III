@@ -2,6 +2,10 @@
 #define TIENDA_H
 
 #include <string>
+#include <iostream>
+#include "producto.h"
+
+#include <vector>
 
 using namespace std;
 
@@ -9,15 +13,27 @@ namespace Tarea3 {
 
 class Tienda {
 
-    char nombre [15];
-    char direccionWeb [24];
-    char direccionFisica [24];
-    char telefono [8];
+    vector <Producto *> inventario;
+
+    char nombre[15];
+    char direccionWeb[24];
+    char direccionFisica[24];
+    char telefono[8];
 
 
     public:
 
-    Tienda (string nombre, string direccionWeb, string direccionFisica, string telefono);
+    Tienda ();
+    ~Tienda();
+
+    void AgregarProducto(Producto *producto);
+    void BuscarProducto(int idProductoBuscado);
+    void EliminarProducto(int idProductoAEliminar);
+    void ModificarProducto();
+
+    void GuardarEnStream(ostream *streamSalida);
+    void CargarDesdeStream(istream *streamEntrada);
+
     friend ostream& operator << (ostream &o, const Tienda *tienda);
 };
 
