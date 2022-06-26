@@ -57,7 +57,7 @@ namespace Tarea3
         delete inventarioLeido;
         delete inventarioEsperado;
 
-        string esperado = "Planilla: \n[1] - Pedro 20\n"; 
+        string esperado = "Inventario: \n[1] - Bananas 3\n"; 
         string salidaInventarioEsperado = streamSalidaInventarioEsperado.str();
 
         // Primero, validar la salida de la planilla esperada sea correcta

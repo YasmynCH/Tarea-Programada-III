@@ -48,13 +48,16 @@ void Tienda::CargarDesdeStream(istream *streamEntrada){
     
 }
 
-}
 
-/*ostream& operator << (ostream &o, const Tarea3::Tienda *tienda) {
+ostream& operator << (ostream &o, const Tarea3::Tienda *tienda) {
   
     o << "Inventario: " << std::endl;
 
     for (Tarea3::Producto *producto : tienda->inventario){
         o << producto << endl;
     }
-}*/
+
+    return o;
+}
+
+};
