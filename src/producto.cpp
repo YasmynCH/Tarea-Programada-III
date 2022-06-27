@@ -21,6 +21,16 @@ namespace Tarea3{
 
     }
 
+    int Producto::getId(){
+
+        return this->id;
+    }
+
+    string Producto::getNombre(){
+
+        return this->nombre;
+    }
+
     ostream &operator<<(ostream &o, const Producto *producto){
         o << "[" << producto->id << "] - " << producto->nombre << " " << producto->exitencias;
         return o;

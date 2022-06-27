@@ -19,6 +19,9 @@ class Producto{
 
     Producto(int id, string nombre, int existencias);
     Producto();
+    
+    int getId();
+    string getNombre();
 
     friend ostream& operator << (ostream &o, const Producto *producto);
 };

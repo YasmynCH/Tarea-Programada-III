@@ -1,7 +1,9 @@
 #include "tienda.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <cstring>
+#include "excepcionProductoInexistente.h"
 
 namespace Tarea3
 {
@@ -31,57 +33,81 @@ namespace Tarea3
         this->inventario.push_back(productoNuevo);
     }
 
-    /*void Tienda::GuardarEnStream(ostream *streamSalida){
-    streamSalida->seekp(0, std::ios::end);
-        int cantidadBytesEnArchivo = streamSalida->tellp();
-        int cantidadProductos = cantidadBytesEnArchivo / sizeof(Producto);
+    void Tienda::GuardarEnStream(ostream *streamSalida)
+    {
 
-        for (Producto *producto : this->inventario){
+        Tienda *tienda = new Tienda(this->nombre, this->direccionWeb, this->direccionFisica, this->telefono);
+        streamSalida->write((char *)tienda, sizeof(Tienda));
+
+        for (Producto *producto : this->inventario)
+        {
 
             streamSalida->write((char *)producto, sizeof(Producto));
+            ;
         }
-    }*/
+    }
 
-    void Tienda::GuardarEnStream(ostream *streamSalida){       
+    void Tienda::CargarDesdeStream(istream *streamEntrada)
+    {
 
- 
-            Tienda *tienda = new Tienda(this->nombre, this->direccionWeb, this->direccionFisica, this->telefono);
-            streamSalida->write((char *)tienda, sizeof(Tienda));
+        streamEntrada->seekg(0, ios::end);
+        int cantidadBytesEnArchivo = streamEntrada->tellg();
+        int cantidadProductos = cantidadBytesEnArchivo / sizeof(Producto);
 
-            for (Producto *producto : this->inventario){
+        // Leer cada empleado
+        streamEntrada->seekg(0, ios::beg); // Empezar desde el principio del archivo
+        for (int indice = 0; indice < cantidadProductos; indice++)
+        {
+            Producto *producto = new Producto();
+            streamEntrada->read((char *)producto, sizeof(Producto)); // variable para guardar y cuántos bytes leo
 
-            streamSalida->write((char *)producto, sizeof(Producto));;
-         }
+            this->AgregarProducto(producto);
         }
-    
-        void Tienda::CargarDesdeStream(istream * streamEntrada)
+    }
+
+    Producto Tienda::BuscarProducto(int idProductoBuscado)
+    {
+
+        ifstream streamEntrada;
+        streamEntrada.open("archivo_test.dat", ios::in | ios::binary);
+
+        if (!streamEntrada.is_open())
+        {
+            cerr << "No se pudo abrir archivo planilla.dat para leer los datos";
+        }
+
+        Producto productoEncontrado;
+
+        int posicion = sizeof(Producto) * idProductoBuscado;
+        streamEntrada.seekg(0, ios::beg);
+
+        int tamanoStream = streamEntrada.tellg();
+
+        if (posicion > tamanoStream)
         {
 
-            streamEntrada->seekg(0, std::ios::end);
-            int cantidadBytesEnArchivo = streamEntrada->tellg();
-            int cantidadProductos = cantidadBytesEnArchivo / sizeof(Producto);
-
-            // Leer cada empleado
-            streamEntrada->seekg(0, std::ios::beg); // Empezar desde el principio del archivo
-            for (int indice = 0; indice < cantidadProductos; indice++)
-            {
-                Producto *producto = new Producto();
-                streamEntrada->read((char *)producto, sizeof(Producto)); // variable para guardar y cuántos bytes leo
-
-                this->AgregarProducto(producto);
-            }
+            throw ExcepcionProductoInexistente();
         }
 
-        ostream &operator<<(ostream &o, const Tarea3::Tienda *tienda)
-        {
+        streamEntrada.seekg(posicion);
+        streamEntrada.read((char *) &productoEncontrado, sizeof(Producto));
 
-            o << "Inventario: " << std::endl;
+        return productoEncontrado;
+    }
 
-            for (Tarea3::Producto *producto : tienda->inventario)
-            {
-                o << producto << endl;
-            }
 
-            return o;
-        }
-    };
+
+ostream &operator<<(ostream &o, const Tienda *tienda)
+{
+
+    o << "Inventario: " << std::endl;
+
+    for (Producto *producto : tienda->inventario)
+    {
+        o << producto << endl;
+    }
+
+    return o;
+}
+}
+;

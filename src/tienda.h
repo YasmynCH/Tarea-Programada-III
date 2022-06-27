@@ -27,7 +27,7 @@ class Tienda {
     ~Tienda();
 
     void AgregarProducto(Producto *producto);
-    void BuscarProducto(int idProductoBuscado);
+    Producto BuscarProducto(int nombreProductoBuscado);
     void EliminarProducto(int idProductoAEliminar);
     void ModificarProducto();
 
