@@ -23,7 +23,7 @@ class Tienda {
 
     public:
 
-    Tienda ();
+    Tienda (string nombre, string direccionWeb, string direccionFisica, string telefono);
     ~Tienda();
 
     void AgregarProducto(Producto *producto);

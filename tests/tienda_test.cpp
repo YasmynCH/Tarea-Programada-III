@@ -15,10 +15,18 @@ namespace Tarea3
         /// AAA
 
         // Arrange - configurar el escenario
-        Tienda *inventarioEsperado = new Tienda();
+        string nombre="vendeTodo";
+        string direccionWeb="vendeTodo@nadagratis";
+        string direccionFisica="a la par de la escuela";
+        string telefono="8888888";
+
+        Tienda *inventarioEsperado = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Producto *producto1 = new Producto(1, "Bananas", 3);
         inventarioEsperado->AgregarProducto(producto1);
+
+        Producto *producto2 = new Producto(2, "Pijamas", 2);
+        inventarioEsperado->AgregarProducto(producto2);
 
         // Act - ejecute la operación
         // Escribir un archivo de prueba
@@ -45,7 +53,7 @@ namespace Tarea3
             FAIL();
         }
     
-        Tienda *inventarioLeido = new Tienda();
+        Tienda *inventarioLeido = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
         inventarioLeido->CargarDesdeStream(&archivoEntrada);
 
         ostringstream streamSalidaInventarioLeido;
@@ -57,7 +65,7 @@ namespace Tarea3
         delete inventarioLeido;
         delete inventarioEsperado;
 
-        string esperado = "Inventario: \n[1] - Bananas 3\n"; 
+        string esperado = "Inventario: \n[1] - Bananas 3\n[2] - Pijamas 2\n" ; 
         string salidaInventarioEsperado = streamSalidaInventarioEsperado.str();
 
         // Primero, validar la salida de la planilla esperada sea correcta
