@@ -43,7 +43,7 @@ namespace Tarea3
         {
 
             streamSalida->write((char *)producto, sizeof(Producto));
-            ;
+            
         }
     }
 
@@ -78,8 +78,8 @@ namespace Tarea3
 
         Producto productoEncontrado;
 
-        int posicion = sizeof(Producto) * idProductoBuscado;
-        streamEntrada.seekg(0, ios::beg);
+        int posicion = sizeof(Producto) * idProductoBuscado ;
+        streamEntrada.seekg(71, ios::beg);
 
         int tamanoStream = streamEntrada.tellg();
 
@@ -95,6 +95,17 @@ namespace Tarea3
         return productoEncontrado;
     }
 
+ void Tienda::EliminarProducto(int idProductoBuscado){
+
+        for (int indice= 0; indice<inventario.size(); indice++){
+
+            if (inventario[indice]->getId() == idProductoBuscado){
+
+                inventario.erase(inventario.begin()+ indice);
+            }
+        }
+
+ }
 
 
 ostream &operator<<(ostream &o, const Tienda *tienda)
