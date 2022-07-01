@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "./../src/tienda.h"
+#include "./../src/excepcionNoSePuedeLeerArchivo.h"
 
 
 using namespace std;
@@ -35,7 +36,7 @@ namespace Tarea3
 
         if (!archivoSalida.is_open())
         {
-            cerr << "No se pudo abrir archivo archivo_test.dat para escribir los datos";
+            throw ExcepcionNoSePuedeLeerArchivo();
             FAIL();
         }
 
@@ -49,7 +50,7 @@ namespace Tarea3
 
         if (!archivoEntrada.is_open())
         {
-            cerr << "No se pudo abrir archivo archivo_test.dat para leer los datos";
+            throw ExcepcionNoSePuedeLeerArchivo();
             FAIL();
         }
     
