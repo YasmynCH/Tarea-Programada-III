@@ -8,8 +8,7 @@
 namespace Tarea3
 {
 
-    Tienda::Tienda(string nombre, string direccionWeb, string direccionFisica, string telefono)
-    {
+    Tienda::Tienda(string nombre, string direccionWeb, string direccionFisica, string telefono){
 
         strcpy(this->nombre, nombre.c_str());
         strcpy(this->direccionWeb, direccionWeb.c_str());
@@ -17,38 +16,34 @@ namespace Tarea3
         strcpy(this->telefono, telefono.c_str());
     }
 
-    Tienda::~Tienda()
-    {
+    Tienda::~Tienda(){
 
-        for (Producto *producto : this->inventario)
-        {
+        for (Producto *producto : this->inventario){
 
             delete producto;
         }
     }
 
-    void Tienda::AgregarProducto(Producto *productoNuevo)
-    {
+    void Tienda::AgregarProducto(Producto *productoNuevo){
 
         this->inventario.push_back(productoNuevo);
     }
 
-    void Tienda::GuardarEnStream(ostream *streamSalida)
-    {
+
+    void Tienda::GuardarEnStream(ostream *streamSalida){
 
         Tienda *tienda = new Tienda(this->nombre, this->direccionWeb, this->direccionFisica, this->telefono);
+        
         streamSalida->write((char *)tienda, sizeof(Tienda));
 
-        for (Producto *producto : this->inventario)
-        {
+            for (Producto *producto : this->inventario){
 
-            streamSalida->write((char *)producto, sizeof(Producto));
+                 streamSalida->write((char *)producto, sizeof(Producto));
             
-        }
+            }
     }
 
-    void Tienda::CargarDesdeStream(istream *streamEntrada)
-    {
+    void Tienda::CargarDesdeStream(istream *streamEntrada){
 
         streamEntrada->seekg(0, ios::end);
         int cantidadBytesEnArchivo = streamEntrada->tellg();
@@ -56,8 +51,8 @@ namespace Tarea3
 
         // Leer cada empleado
         streamEntrada->seekg(0, ios::beg); // Empezar desde el principio del archivo
-        for (int indice = 0; indice < cantidadProductos; indice++)
-        {
+
+        for (int indice = 0; indice < cantidadProductos; indice++){
             Producto *producto = new Producto();
             streamEntrada->read((char *)producto, sizeof(Producto)); // variable para guardar y cuántos bytes leo
 
@@ -65,26 +60,24 @@ namespace Tarea3
         }
     }
 
-    Producto Tienda::BuscarProducto(int idProductoBuscado)
-    {
+    Producto Tienda::BuscarProducto(int idProductoBuscado){
 
         ifstream streamEntrada;
         streamEntrada.open("archivo_test.dat", ios::in | ios::binary);
 
-        if (!streamEntrada.is_open())
-        {
+        if (!streamEntrada.is_open()){
+
             cerr << "No se pudo abrir archivo planilla.dat para leer los datos";
         }
 
         Producto productoEncontrado;
 
-        int posicion = sizeof(Producto) * idProductoBuscado ;
+        int posicion = sizeof(Tienda) + (sizeof(Producto) * idProductoBuscado) ;
         streamEntrada.seekg(71, ios::beg);
 
         int tamanoStream = streamEntrada.tellg();
 
-        if (posicion > tamanoStream)
-        {
+        if (posicion > tamanoStream){
 
             throw ExcepcionProductoInexistente();
         }
@@ -93,6 +86,41 @@ namespace Tarea3
         streamEntrada.read((char *) &productoEncontrado, sizeof(Producto));
 
         return productoEncontrado;
+    }
+
+
+ void Tienda::ModificarNombreProducto(int idProductoAModificar, string nombreModificado){
+
+        ifstream streamEntrada;
+        streamEntrada.open("archivo_test.dat", ios::in | ios::binary);
+
+        if (!streamEntrada.is_open()){
+
+            cerr << "No se pudo abrir archivo planilla.dat para leer los datos";
+        }
+
+        Producto productoEncontrado;
+
+        int posicion = sizeof(Tienda) + (sizeof(Producto) * idProductoAModificar);
+        streamEntrada.seekg(71, ios::beg);
+
+        int tamanoStream = streamEntrada.tellg();
+
+        if (posicion > tamanoStream){
+
+            throw ExcepcionProductoInexistente();
+        }
+
+        if (productoEncontrado.getId() == idProductoAModificar){
+      
+            streamEntrada.seekg(posicion);
+            streamEntrada.read((char *) &productoEncontrado, sizeof(Producto));
+             
+            productoEncontrado.getNombre() = nombreModificado;
+
+        }
+
+        
     }
 
  void Tienda::EliminarProducto(int idProductoBuscado){
@@ -120,5 +148,5 @@ ostream &operator<<(ostream &o, const Tienda *tienda)
 
     return o;
 }
-}
-;
+
+};

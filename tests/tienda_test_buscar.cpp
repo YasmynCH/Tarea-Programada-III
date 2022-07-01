@@ -6,6 +6,7 @@
 #include "./../src/tienda.h"
 
 
+
 using namespace std;
 
 namespace Tarea3
@@ -31,6 +32,7 @@ namespace Tarea3
         // Act - ejecute la operación
         // Escribir un archivo de prueba
         ofstream archivoSalida;
+ 
         archivoSalida.open("archivo_test.dat", ios::out|ios::binary);
 
         if (!archivoSalida.is_open())
@@ -42,7 +44,7 @@ namespace Tarea3
         inventarioEsperado->GuardarEnStream(&archivoSalida);
 
         archivoSalida.close();
-
+        
         // Leer el archivo de prueba
         ifstream archivoEntrada;
         archivoEntrada.open("archivo_test.dat", ios::in|ios::binary);

@@ -29,7 +29,7 @@ class Tienda {
     void AgregarProducto(Producto *producto);
     Producto BuscarProducto(int nombreProductoBuscado);
     void EliminarProducto(int idProductoAEliminar);
-    void ModificarProducto();
+    void ModificarNombreProducto(int idProductoAModificar, string nombreModificado);
 
     void GuardarEnStream(ostream *streamSalida);
     void CargarDesdeStream(istream *streamEntrada);
