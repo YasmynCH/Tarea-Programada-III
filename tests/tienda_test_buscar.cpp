@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "./../src/tienda.h"
+#include "./../src/controlTienda.h"
 #include "./../src/excepcionNoSePuedeLeerArchivo.h"
 
 
@@ -22,7 +22,9 @@ namespace Tarea3
         string direccionFisica="a la par de la escuela";
         string telefono="8888888";
 
-        Tienda *inventarioEsperado = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+        ControlTienda *inventarioEsperado = new ControlTienda("archivo_test.dat");
+
+        Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Producto *producto1 = new Producto(1, "Bananas", 3);
         inventarioEsperado->AgregarProducto(producto1);
@@ -32,19 +34,11 @@ namespace Tarea3
 
         // Act - ejecute la operación
         // Escribir un archivo de prueba
+
         ofstream archivoSalida;
- 
-        archivoSalida.open("archivo_test.dat", ios::out|ios::binary);
-
-        if (!archivoSalida.is_open())
-        {
-            throw ExcepcionNoSePuedeLeerArchivo();
-            FAIL();
-        }
-
         inventarioEsperado->GuardarEnStream(&archivoSalida);
 
-        archivoSalida.close();
+        inventarioEsperado->CerrarArchivoBinario();
         
         // Leer el archivo de prueba
         ifstream archivoEntrada;
@@ -56,7 +50,11 @@ namespace Tarea3
             FAIL();
         }
     
-        Tienda *inventarioLeido = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+        ControlTienda *inventarioLeido = new ControlTienda("archivo_test.dat");
+        
+        Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+
+        
         inventarioLeido->CargarDesdeStream(&archivoEntrada);
 
         ostringstream streamSalidaInventarioLeido;

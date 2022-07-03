@@ -4,23 +4,25 @@
 #include <sstream>
 
 #include "./../src/tienda.h"
+#include "./../src/controlTienda.h"
 
 
-using namespace std;
-
-namespace Tarea3
+using namespace Tarea3 
 {
-    TEST(Planilla_Test, Escribir_Leer_Archivo_Binario_Test)
+    TEST(Tienda_Test, Escribir_Leer_Archivo_Binario_Test)
     {
         /// AAA
 
         // Arrange - configurar el escenario
+
+        ControlTienda *inventarioEsperado = new ControlTienda("archivo_test.dat");
+        
         string nombre="vendeTodo";
         string direccionWeb="vendeTodo@nadagratis";
         string direccionFisica="a la par de la escuela";
         string telefono="8888888";
 
-        Tienda *inventarioEsperado = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+        Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Producto *producto1 = new Producto(1, "Bananas", 3);
         inventarioEsperado->AgregarProducto(producto1);
@@ -30,19 +32,12 @@ namespace Tarea3
 
         // Act - ejecute la operación
         // Escribir un archivo de prueba
-        ofstream archivoSalida;
-        archivoSalida.open("archivo_test.dat", ios::out|ios::binary);
 
-        if (!archivoSalida.is_open())
-        {
-            cerr << "No se pudo abrir archivo archivo_test.dat para escribir los datos";
-            FAIL();
-        }
+        ControlTienda archivoSalida {"archivo_test.dat"}; 
 
-        inventarioEsperado->GuardarEnStream(&archivoSalida);
+        inventarioEsperado->GuardarEnStream(ostream &archivoSalida);
 
-        archivoSalida.close();
-
+        inventarioEsperado->CerrarArchivoBinario();
         // Leer el archivo de prueba
         ifstream archivoEntrada;
         archivoEntrada.open("archivo_test.dat", ios::in|ios::binary);
@@ -53,8 +48,11 @@ namespace Tarea3
             FAIL();
         }
     
-        Tienda *inventarioLeido = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
-        inventarioLeido->CargarDesdeStream(&archivoEntrada);
+        ControlTienda *inventarioLeido = new ControlTienda("archivo_test.dat");
+        
+        //Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+        
+        inventarioLeido->CargarDesdeStream(ifstream &archivoEntrada);
 
         ostringstream streamSalidaInventarioLeido;
         streamSalidaInventarioLeido << inventarioLeido;

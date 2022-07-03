@@ -9,31 +9,23 @@
 
 using namespace std;
 
-namespace Tarea3 {
+namespace Tarea3{
+
 
 class Tienda {
-
-    vector <Producto *> inventario;
 
     char nombre[15];
     char direccionWeb[24];
     char direccionFisica[24];
     char telefono[8];
 
+    //Tamaño total del la tienda 71
 
     public:
 
     Tienda (string nombre, string direccionWeb, string direccionFisica, string telefono);
-    ~Tienda();
-
-    void AgregarProducto(Producto *producto);
-    Producto BuscarProducto(int nombreProductoBuscado);
-    void EliminarProducto(int idProductoAEliminar);
-    void ModificarNombreProducto(int idProductoAModificar, string nombreModificado);
-
-    void GuardarEnStream(ostream *streamSalida);
-    void CargarDesdeStream(istream *streamEntrada);
-
+    Tienda();
+   
     friend ostream& operator << (ostream &o, const Tienda *tienda);
 };
 

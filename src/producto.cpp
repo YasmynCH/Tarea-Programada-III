@@ -3,10 +3,12 @@
 #include <string>
 #include <cstring>
 
+using namespace std;
 
 namespace Tarea3{
 
-    Producto::Producto(int id, string nombre, int existencias){
+
+Producto::Producto(int id, std::string nombre, int existencias){
 
         this->id = id;
         strcpy(this->nombre, nombre.c_str());
@@ -35,4 +37,6 @@ namespace Tarea3{
         o << "[" << producto->id << "] - " << producto->nombre << " " << producto->exitencias;
         return o;
     }
-}
+
+};
+
