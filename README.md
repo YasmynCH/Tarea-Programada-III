@@ -16,14 +16,15 @@ Para ejecutar los tests de este programa corra la siguiente instrucción:
 
 
 *La estructura de una tienda*
-Campo             |	Tamaño en bytes  |	Offset
-Nombre Tienda     |	      15         |    0
-Dirección web     |	      24         |    15
-Dirección física  | 	  24         |    39
-Teléfono          |       8          |    63
-Id Producto       |       4          |    71
-Nombre Producto   |       20         |    75
-Existencias       |       4          |    95
+|Campo             |	Tamaño en bytes  |	Offset
+|------------------|---------------------|---------|
+|Nombre Tienda     |	      15         |    0    |
+|Dirección web     |	      24         |    15   |
+|Dirección física  | 	      24         |    39   |
+|Teléfono          |          8          |    63   |
+|Id Producto       |          4          |    71   |
+|Nombre Producto   |          20         |    75   |
+|Existencias       |          4          |    95   |
 
 Total: 71 bytes datos de la tienda.
 Total: 28 bytes datos de cada producto.
@@ -31,6 +32,7 @@ Total: 28 bytes datos de cada producto.
 Cómo leo el producto n? Offset: n*28 + 71
 
 *Índice*
-ID |	Offset
-1  |	71
-2  |	99
+|ID |	Offset|
+|---|---------|
+|1  |	71    |
+|2  |	99    |
