@@ -3,26 +3,29 @@
 #include <fstream>
 #include <sstream>
 
-#include "./../src/tienda.h"
-#include "./../src/controlTienda.h"
+#include "../src/tienda.h"
+#include "./../src/excepcionNoSePuedeLeerArchivo.h"
 
 
-using namespace Tarea3 
+
+
+using namespace std;
+
+namespace Tarea3
 {
-    TEST(Tienda_Test, Escribir_Leer_Archivo_Binario_Test)
+    TEST(Tienda_Test, EscriturayLectura_Archivo_Binario_Test)
     {
         /// AAA
 
         // Arrange - configurar el escenario
-
-        ControlTienda *inventarioEsperado = new ControlTienda("archivo_test.dat");
-        
         string nombre="vendeTodo";
         string direccionWeb="vendeTodo@nadagratis";
         string direccionFisica="a la par de la escuela";
         string telefono="8888888";
 
-        Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+        Tarea3::Tienda *inventarioEsperado = new Tienda();
+        
+        Tarea3::Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Producto *producto1 = new Producto(1, "Bananas", 3);
         inventarioEsperado->AgregarProducto(producto1);
@@ -32,27 +35,36 @@ using namespace Tarea3
 
         // Act - ejecute la operación
         // Escribir un archivo de prueba
+        ofstream archivoSalida;
 
-        ControlTienda archivoSalida {"archivo_test.dat"}; 
+       // Tienda *tiendaLectura = new Tienda("archivo_test.dat");
 
-        inventarioEsperado->GuardarEnStream(ostream &archivoSalida);
+       archivoSalida.open("archivo_test.dat", ios::out|ios::binary);
 
-        inventarioEsperado->CerrarArchivoBinario();
+        if (!archivoSalida.is_open())
+        {
+            throw ExcepcionNoSePuedeLeerArchivo();
+            FAIL();
+        }
+
+        inventarioEsperado->GuardarEnStream(&archivoSalida);
+        
+       // tiendaLectura->CerrarArchivoBinario();
+        archivoSalida.close();
+
         // Leer el archivo de prueba
         ifstream archivoEntrada;
         archivoEntrada.open("archivo_test.dat", ios::in|ios::binary);
 
         if (!archivoEntrada.is_open())
         {
-            cerr << "No se pudo abrir archivo archivo_test.dat para leer los datos";
+            throw ExcepcionNoSePuedeLeerArchivo();
             FAIL();
         }
     
-        ControlTienda *inventarioLeido = new ControlTienda("archivo_test.dat");
+        Tarea3::Tienda *inventarioLeido = new Tienda();
         
-        //Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
-        
-        inventarioLeido->CargarDesdeStream(ifstream &archivoEntrada);
+        inventarioLeido->CargarDesdeStream(&archivoEntrada);
 
         ostringstream streamSalidaInventarioLeido;
         streamSalidaInventarioLeido << inventarioLeido;
@@ -72,5 +84,6 @@ using namespace Tarea3
         string salidaInventarioLeidoDeArchivo = streamSalidaInventarioEsperado.str();
         EXPECT_EQ(esperado, salidaInventarioLeidoDeArchivo);
     }
+    
     
 }

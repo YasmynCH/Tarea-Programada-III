@@ -5,13 +5,13 @@
 
 using namespace std;
 
-namespace Tarea3 {
+namespace Tarea3{
 
 class Producto{
 
     int id;
     char nombre[20];
-    int exitencias; 
+    int existencias; 
     //Tamaño total del empleado 28
 
 
@@ -22,6 +22,8 @@ class Producto{
     
     int getId();
     string getNombre();
+    int getExistencias();
+
 
     friend ostream& operator << (ostream &o, const Producto *producto);
 };

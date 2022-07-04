@@ -8,18 +8,19 @@ using namespace std;
 namespace Tarea3{
 
 
-Producto::Producto(int id, std::string nombre, int existencias){
+Producto::Producto(int id, string nombre, int existencias){
+
 
         this->id = id;
         strcpy(this->nombre, nombre.c_str());
-        this->exitencias = existencias;
+        this->existencias = existencias;
     }
 
     Producto::Producto(){
 
         this->id = 0;
         strcpy(this->nombre, "");
-        this->exitencias = 0;
+        this->existencias = 0;
 
     }
 
@@ -33,10 +34,16 @@ Producto::Producto(int id, std::string nombre, int existencias){
         return this->nombre;
     }
 
-    ostream &operator<<(ostream &o, const Producto *producto){
-        o << "[" << producto->id << "] - " << producto->nombre << " " << producto->exitencias;
-        return o;
+    int Producto::getExistencias(){
+
+        return this->existencias;
     }
 
+    ostream &operator<<(ostream &o, const Producto *producto){
+        o << "[" << producto->id << "] - " << producto->nombre << " " << producto->existencias;
+        return o;
+    
+    }
+    
 };
 
