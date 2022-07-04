@@ -52,6 +52,7 @@ void Tienda::GuardarEnStream(ostream *streamSalida){
     Tarea3::Tienda *tienda = new Tienda(this->nombre, this-> direccionWeb, this-> direccionFisica, this-> telefono);
 
     streamSalida->write((char *)tienda, sizeof(Tienda));
+    
 
     for (Producto *producto : this->inventario)
     {
@@ -95,7 +96,7 @@ void Tienda::CargarDesdeStream(istream *streamEntrada){
 
         int tamanoStream = streamEntrada.tellg();
 
-        if (posicion > tamanoStream){
+        if (posicion < tamanoStream){
 
             throw ExcepcionProductoInexistente();
         }
@@ -124,7 +125,7 @@ void Tienda::CargarDesdeStream(istream *streamEntrada){
 
         int tamanoStream = streamEntrada.tellg();
 
-        if (posicion > tamanoStream){
+        if (posicion < tamanoStream){
 
             throw ExcepcionProductoInexistente();
         }

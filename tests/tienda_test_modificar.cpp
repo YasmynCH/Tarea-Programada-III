@@ -12,7 +12,7 @@ using namespace std;
 
 namespace Tarea3
 {
-    TEST(Tienda_Test, Buscar_Archivo_Binario_Test)
+    TEST(Tienda_Test, Modificar_Archivo_Binario_Test)
     {
         /// AAA
 
@@ -72,11 +72,12 @@ namespace Tarea3
         delete inventarioLeido;
         delete inventarioEsperado;
 
-        int productoBuscado=1;
+        int productoBuscado=2;
+        string nuevoNombre= "Canastas";
 
-        inventarioLeido->BuscarProducto(productoBuscado);
+        inventarioLeido->ModificarNombreProducto(productoBuscado, nuevoNombre);
 
-        string esperado = "Inventario: \n[2] - Bananas 3\n" ; 
+        string esperado = "Inventario: \n[1] - Bananas 3\n[2] - Canastas 2\n" ; 
         string salidaInventarioEsperado = streamSalidaInventarioEsperado.str();
 
         // Primero, validar la salida de la planilla esperada sea correcta
