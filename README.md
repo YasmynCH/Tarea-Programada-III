@@ -2,10 +2,6 @@ Tarea-Programada-III | B41761 - Yasmyn Chacón Hernández Para el programa Para 
 
 make
 
-Para ejecutar este programa corra la siguiente instrucción:
-
-./bin/Tarea-III
-
 Para los tests Para compilar los tests de este programa ejecute la siguiente instrucción:
 
 make test
