@@ -21,9 +21,9 @@ namespace Tarea3
         string direccionFisica="a la par de la escuela";
         string telefono="8888888";
 
-        Tarea3::Tienda *inventarioEsperado = new Tienda();
+        Tienda *inventarioEsperado = new Tienda();
         
-        Tarea3::Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+        Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Producto *producto1 = new Producto(1, "Bananas", 3);
         inventarioEsperado->AgregarProducto(producto1);
@@ -42,7 +42,7 @@ namespace Tarea3
             FAIL();
         }
 
-        inventarioEsperado->GuardarEnStream(&archivoSalida);
+        inventarioEsperado->GuardarEnStreamBinario(&archivoSalida);
 
         archivoSalida.close();
 
@@ -56,7 +56,7 @@ namespace Tarea3
             FAIL();
         }
     
-        Tienda *inventarioLeido = new Tienda("archivo_test.dat");
+        Tienda *inventarioLeido = new Tienda();
         
         inventarioLeido->CargarDesdeStream(&archivoEntrada);
 

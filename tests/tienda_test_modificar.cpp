@@ -22,9 +22,9 @@ namespace Tarea3
         string direccionFisica="a la par de la escuela";
         string telefono="8888888";
 
-        Tarea3::Tienda *inventarioEsperado = new Tienda();
+        Tienda *inventarioEsperado = new Tienda();
 
-        Tarea3::Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
+        Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Producto *producto1 = new Producto(1, "Bananas", 3);
         inventarioEsperado->AgregarProducto(producto1);
@@ -43,7 +43,7 @@ namespace Tarea3
             FAIL();
         }
 
-        inventarioEsperado->GuardarEnStream(&archivoSalida);
+        inventarioEsperado->GuardarEnStreamBinario(&archivoSalida);
         
        // tiendaLectura->CerrarArchivoBinario();
         archivoSalida.close();
@@ -58,7 +58,7 @@ namespace Tarea3
             FAIL();
         }
     
-        Tienda *inventarioLeido = new Tienda("archivo_test.dat");
+        Tienda *inventarioLeido = new Tienda();
     
         
         inventarioLeido->CargarDesdeStream(&archivoEntrada);
@@ -77,7 +77,7 @@ namespace Tarea3
 
         inventarioLeido->ModificarNombreProducto(productoBuscado, nuevoNombre);
 
-        string esperado = "Inventario: \n[1] - Bananas 3\n[2] - Canastas 2\n" ; 
+        string esperado = "Inventario: \n[1] - Bananas 3\n[2] - Pijamas 2\n" ; 
         string salidaInventarioEsperado = streamSalidaInventarioEsperado.str();
 
         // Primero, validar la salida de la planilla esperada sea correcta

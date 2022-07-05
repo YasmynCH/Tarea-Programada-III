@@ -5,7 +5,6 @@
 
 using namespace std;
 
-namespace Tarea3{
 
 class Producto{
 
@@ -19,15 +18,12 @@ class Producto{
 
     Producto(int id, string nombre, int existencias);
     Producto();
-    
-    int getId();
-    string getNombre();
-    int getExistencias();
 
+    int getId();
+    std::string getNombre();
+    int getExistencias();
 
     friend ostream& operator << (ostream &o, const Producto *producto);
 };
-
-}
 
 #endif

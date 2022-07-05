@@ -23,6 +23,7 @@ test:
 	g++ $(FLAGS) tests/tienda_test_buscar.cpp -o obj/tienda_test_buscar.o
 	g++ $(FLAGS) tests/tienda_test_modificar.cpp -o obj/tienda_test_modificar.o
 	g++ $(FLAGS) tests/tienda_test_eliminar.cpp -o obj/tienda_test_eliminar.o
+	g++ $(FLAGS) tests/tienda_test_excepcion1.cpp -o obj/tienda_test_excepcion1.o
 	g++ -g -o bin/tests obj/tienda.o obj/producto.o obj/tienda_test.o obj/tienda_test_buscar.o obj/tienda_test_modificar.o obj/tienda_test_eliminar.o  -lgtest -lgtest_main -lpthread 
 
 clean:

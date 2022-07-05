@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/bin/tarea3",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb", // lldb in Mac, gdb in Linux/WSL
@@ -24,7 +24,7 @@
             "program": "${workspaceFolder}/bin/tests",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb", // lldb in Mac, gdb in Linux/WSL

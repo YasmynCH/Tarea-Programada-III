@@ -3,16 +3,14 @@
 #include <fstream>
 #include <sstream>
 
-#include "./../src/tienda.h"
+#include "../src/tienda.h"
 #include "./../src/excepcionNoSePuedeLeerArchivo.h"
-
-
 
 using namespace std;
 
 namespace Tarea3
 {
-    TEST(Tienda_Test, Buscar_Archivo_Binario_Test)
+    TEST(Tienda_Test, ExcepcionLectura_Archivo_Binario_Test)
     {
         /// AAA
 
@@ -23,7 +21,7 @@ namespace Tarea3
         string telefono="8888888";
 
         Tienda *inventarioEsperado = new Tienda();
-
+        
         Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Producto *producto1 = new Producto(1, "Bananas", 3);
@@ -34,7 +32,10 @@ namespace Tarea3
 
         // Act - ejecute la operación
         // Escribir un archivo de prueba
-       ofstream archivoSalida;
+        ofstream archivoSalida;
+
+       // Tienda *tiendaLectura = new Tienda("archivo_test.dat");
+
        archivoSalida.open("archivo_test.dat", ios::out|ios::binary);
 
         if (!archivoSalida.is_open())
@@ -47,7 +48,7 @@ namespace Tarea3
         
        // tiendaLectura->CerrarArchivoBinario();
         archivoSalida.close();
-        
+
         // Leer el archivo de prueba
         ifstream archivoEntrada;
         archivoEntrada.open("archivo_test.dat", ios::in|ios::binary);
@@ -59,7 +60,6 @@ namespace Tarea3
         }
     
         Tienda *inventarioLeido = new Tienda();
-    
         
         inventarioLeido->CargarDesdeStream(&archivoEntrada);
 
@@ -72,18 +72,14 @@ namespace Tarea3
         delete inventarioLeido;
         delete inventarioEsperado;
 
-        int productoBuscado=1;
-
-        inventarioLeido->BuscarProducto(&archivoEntrada, productoBuscado);
-
-        string esperado = "Inventario: \n[2] - Bananas 3\n" ; 
+        string esperado = "Inventario: \n[1] - Bananas 3\n[2] - Pijamas 2\n"; 
         string salidaInventarioEsperado = streamSalidaInventarioEsperado.str();
 
         // Primero, validar la salida de la planilla esperada sea correcta
         EXPECT_EQ(esperado, salidaInventarioEsperado);
 
         string salidaInventarioLeidoDeArchivo = streamSalidaInventarioEsperado.str();
-        EXPECT_EQ(esperado, salidaInventarioLeidoDeArchivo);
+        EXPECT_THROW(inventarioLeido, ExcepcionNoSePuedeLeerArchivo);
     }
     
     

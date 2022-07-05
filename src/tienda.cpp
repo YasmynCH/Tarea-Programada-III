@@ -1,14 +1,14 @@
 #include "tienda.h"
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <cstring>
 #include "./excepcionNoSePuedeLeerArchivo.h"
 #include "./excepcionProductoInexistente.h"
 
-using namespace std;
+Tienda::Tienda()
+{
 
- namespace Tarea3{ 
+}
 
 Tienda::Tienda(string nombre, string direccionWeb, string direccionFisica, string telefono){
 
@@ -16,49 +16,42 @@ Tienda::Tienda(string nombre, string direccionWeb, string direccionFisica, strin
         strcpy(this->direccionWeb, direccionWeb.c_str());
         strcpy(this->direccionFisica, direccionFisica.c_str());
         strcpy(this->telefono, telefono.c_str());
-    }
-Tienda::Tienda(){
-
 }
 
-Tienda::Tienda(string nombreArchivoBinario){
-
-    archivoBinarioSalida.open(nombreArchivoBinario, ios::out | ios::binary);
-
-    if (!archivoBinarioSalida.is_open())
+Tienda::~Tienda()
+{
+    for (Producto *producto : this->inventario)
     {
-
-        throw ExcepcionNoSePuedeLeerArchivo();
-    }
-}
-
-Tienda::~Tienda(){
-
-    for (Producto *producto : this->inventario){
-
         delete producto;
     }
 }
 
-
-void Tienda::AgregarProducto(Producto *productoNuevo){
-
-    this->inventario.push_back(productoNuevo);
+void Tienda::AgregarProducto(Producto *nuevoProducto)
+{
+    this->inventario.push_back(nuevoProducto);
 }
 
+void Tienda::GuardarEnStreamBinario(ostream *streamSalida)
+{
 
-void Tienda::GuardarEnStream(ostream *streamSalida){
-
-    Tarea3::Tienda *tienda = new Tienda(this->nombre, this-> direccionWeb, this-> direccionFisica, this-> telefono);
+    Tienda *tienda = new Tienda(this->nombre, this-> direccionWeb, this-> direccionFisica, this-> telefono);
 
     streamSalida->write((char *)tienda, sizeof(Tienda));
-    
 
     for (Producto *producto : this->inventario)
     {
-
         streamSalida->write((char *)producto, sizeof(Producto));
     }
+}
+
+void Tienda::BuscarProducto(istream *streamEntrada, int posicionProducto)
+{
+    streamEntrada->seekg(sizeof(Producto) * posicionProducto +71);
+
+    Producto *producto = new Producto();
+    streamEntrada->read((char *)producto, sizeof(Producto));
+
+    this->AgregarProducto(producto);
 }
 
 void Tienda::CargarDesdeStream(istream *streamEntrada){
@@ -79,49 +72,20 @@ void Tienda::CargarDesdeStream(istream *streamEntrada){
     }
 }
 
- Producto Tienda::BuscarProducto(int idProductoBuscado){
+Producto Tienda::ModificarNombreProducto(int idProductoAModificar, string nombreModificado){
 
         ifstream streamEntrada;
         streamEntrada.open("archivo_test.dat", ios::in | ios::binary);
 
         if (!streamEntrada.is_open()){
 
-            cerr << "No se pudo abrir archivo planilla.dat para leer los datos";
-        }
-
-        Producto productoEncontrado;
-
-        int posicion = sizeof(Tienda) + (sizeof(Producto) * idProductoBuscado) ;
-        streamEntrada.seekg(0, ios::beg);
-
-        int tamanoStream = streamEntrada.tellg();
-
-        if (posicion < tamanoStream){
-
-            throw ExcepcionProductoInexistente();
-        }
-
-        streamEntrada.seekg(posicion);
-        streamEntrada.read((char *) &productoEncontrado, sizeof(Producto));
-
-        return productoEncontrado;
-    }
-
-
- void Tienda::ModificarNombreProducto(int idProductoAModificar, string nombreModificado){
-
-        ifstream streamEntrada;
-        streamEntrada.open("archivo_test.dat", ios::in | ios::binary);
-
-        if (!streamEntrada.is_open()){
-
-            cerr << "No se pudo abrir archivo planilla.dat para leer los datos";
+            throw ExcepcionNoSePuedeLeerArchivo();
         }
 
         Producto productoEncontrado;
 
         int posicion = sizeof(Tienda) + (sizeof(Producto) * idProductoAModificar);
-        streamEntrada.seekg(71, ios::beg);
+        streamEntrada.seekg(0, ios::beg);
 
         int tamanoStream = streamEntrada.tellg();
 
@@ -137,11 +101,11 @@ void Tienda::CargarDesdeStream(istream *streamEntrada){
              
             productoEncontrado.getNombre() = nombreModificado;
 
+     
         }
-
+         return  productoEncontrado;
+ }
         
-    }
-
  void Tienda::EliminarProducto(int idProductoBuscado){
 
         for (int indice= 0; indice<inventario.size(); indice++){
@@ -154,23 +118,14 @@ void Tienda::CargarDesdeStream(istream *streamEntrada){
 
  }
 
-/*void Tienda::CerrarArchivoBinario(){
-
-    archivoBinarioSalida.close();
-}*/
-
-ostream &operator<<(ostream &o, const Tienda *tienda)
+ostream& operator << (ostream &o, const Tienda *tienda)
 {
-
     o << "Inventario: " << std::endl;
 
     for (Producto *producto : tienda->inventario)
     {
         o << producto << endl;
     }
-
+    
     return o;
-};
-
-
 }
