@@ -22,7 +22,7 @@ namespace Tarea3
         string direccionFisica="a la par de la escuela";
         string telefono="8888888";
 
-        Tienda *inventarioEsperado = new Tienda();
+        Tienda *inventarioEsperado = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
         Tienda *tienda = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
 
@@ -58,7 +58,7 @@ namespace Tarea3
             FAIL();
         }
     
-        Tienda *inventarioLeido = new Tienda();
+        Tienda *inventarioLeido = new Tienda(nombre, direccionWeb, direccionFisica, telefono);
     
         
         inventarioLeido->CargarDesdeStream(&archivoEntrada);

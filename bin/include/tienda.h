@@ -16,7 +16,7 @@ class Tienda {
     char nombre[15];
     char direccionWeb[24];
     char direccionFisica[24];
-    char telefono[8];
+    char telefono[9];
     //Tamaño total del la tienda 71
 
 

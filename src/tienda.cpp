@@ -5,10 +5,14 @@
 #include "./excepcionNoSePuedeLeerArchivo.h"
 #include "./excepcionProductoInexistente.h"
 
-Tienda::Tienda()
-{
+/*Tienda::Tienda(){
 
-}
+        strcpy(this->nombre, "");
+        strcpy(this->direccionWeb, "");
+        strcpy(this->direccionFisica, "");
+        strcpy(this->telefono, "");
+
+}*/
 
 Tienda::Tienda(string nombre, string direccionWeb, string direccionFisica, string telefono){
 
@@ -34,10 +38,10 @@ void Tienda::AgregarProducto(Producto *nuevoProducto)
 void Tienda::GuardarEnStreamBinario(ostream *streamSalida)
 {
 
-    Tienda *tienda = new Tienda(this->nombre, this-> direccionWeb, this-> direccionFisica, this-> telefono);
-
-    streamSalida->write((char *)tienda, sizeof(Tienda));
-
+    Tienda *infoTienda = new Tienda(this->nombre, this->direccionWeb, this->direccionFisica, this->telefono);
+    
+    streamSalida->write((char *)infoTienda, sizeof(Tienda));
+    
     for (Producto *producto : this->inventario)
     {
         streamSalida->write((char *)producto, sizeof(Producto));
@@ -58,12 +62,14 @@ void Tienda::CargarDesdeStream(istream *streamEntrada){
 
     streamEntrada->seekg(0, ios::end);
     int cantidadBytesEnArchivo = streamEntrada->tellg();
-    int cantidadProductos = cantidadBytesEnArchivo / sizeof(Producto);
+    int cantidadProductos = 71+(cantidadBytesEnArchivo / sizeof(Producto));
 
     // Leer cada empleado
     streamEntrada->seekg(0, ios::beg); // Empezar desde el principio del archivo
+    Tienda *tienda = new Tienda(this->nombre, this->direccionWeb, this->direccionFisica, this->telefono);
+    streamEntrada->read((char *)tienda, sizeof(Tienda));
 
-    for (int indice = 0; indice < cantidadProductos; indice++)
+    for (int indice = 71; indice < cantidadProductos; indice++)
     {
         Producto *producto = new Producto();
         streamEntrada->read((char *)producto, sizeof(Producto)); // variable para guardar y cuántos bytes leo
